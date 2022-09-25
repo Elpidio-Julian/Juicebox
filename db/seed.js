@@ -23,11 +23,10 @@ async function createInitialUsers() {
     try {
       console.log("Starting to create users...");
   
-      const albert = await createUser({ username: 'albert', password: 'bertie99' });
-      const sandra = await createUser({ username: 'sandra', password: '2sandy4me' });
-      const glamgal = await createUser({ username: 'glamgal', password: 'soglam' });
+      await createUser({ username: 'albert', password: 'bertie99' });
+      await createUser({ username: 'sandra', password: '2sandy4me' });
+      await createUser({ username: 'glamgal', password: 'soglam' });
   
-      console.log(albert);
   
       console.log("Finished creating users!");
     } catch(error) {
