@@ -39,6 +39,23 @@ postsRouter.post('/', requireUser, async (req, res, next) => {
   }
 });
 
+postsRouter.get('/', async (req, res, next) => {
+  try {
+    const allPosts = await getAllPosts();
+
+    const posts = allPosts.filter(post => {
+      return post.active || (req.user && post.author.id === req.user.id);
+      // keep a post if it is either active, or if it belongs to the current user
+    });
+
+    res.send({
+      posts
+    });
+  } catch ({ name, message }) {
+    next({ name, message });
+  }
+});
+
 postsRouter.patch('/:postId', requireUser, async (req, res, next) => {
   const { postId } = req.params;
   const { title, content, tags } = req.body;
@@ -98,21 +115,6 @@ postsRouter.delete('/:postId', requireUser, async (req, res, next) => {
   }
 });
   
-postsRouter.get('/', async (req, res, next) => {
-  try {
-    const allPosts = await getAllPosts();
 
-    const posts = allPosts.filter(post => {
-      return post.active || (req.user && post.author.id === req.user.id);
-      // keep a post if it is either active, or if it belongs to the current user
-    });
-
-    res.send({
-      posts
-    });
-  } catch ({ name, message }) {
-    next({ name, message });
-  }
-});
   
   module.exports = postsRouter;
